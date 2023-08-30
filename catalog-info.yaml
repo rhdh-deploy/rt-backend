@@ -1,0 +1,66 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rt-poi-backend-app-dev
+  annotations:
+    argocd/app-name: rt-poi-backend-app-dev
+    backstage.io/kubernetes-id: rt-poi-backend-app
+    backstage.io/kubernetes-namespace: rt
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: rhdh-deploy/rt-backend
+    janus-idp.io/tekton-enabled: 'true'
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.apps.a1jxqhzp.eastus2.aroapp.io/dev-pipelines/ns/rt/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.apps.a1jxqhzp.eastus2.aroapp.io/k8s/ns/rt/deployments/rt-poi-backend-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.apps.a1jxqhzp.eastus2.aroapp.io/#https://github.com/rhdh-deploy/rt-backend?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "user:default/ruthtadese"
+  system: workshop-system-rt
+  providesApis:
+    - backend-api-rt
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-rt
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "user:default/ruthtadese"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: backend-api-rt
+  description: API surface used by workshop attendees to initialize and load parks data
+  links:
+    - url: http://rt-poi-backend-app-rt.apps.a1jxqhzp.eastus2.aroapp.io/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/rhdh-deploy/rt-backend/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "user:default/ruthtadese"
+  system: workshop-system-rt
+  definition:
+    $text: https://github.com/rhdh-deploy/rt-backend/tree/main/src/main/resources/META-INF/openapi.yaml
